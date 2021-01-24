@@ -56,11 +56,43 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script>
     $(document).on('click', '.tweet_submit', ()=>{
+        // $.get({
+        //     url: '/tweets/create',
+        //     data: {tweet: {text: $('.tweet_input').val()}}
+        // }).done(()=>{
+        //     $('.tweet_input').val("")
+        // })
         $.get({
             url: '/tweets/create',
             data: {tweet: {text: $('.tweet_input').val()}}
-        }).done(()=>{
-            $('.tweet_input').val("")
+        }).done((res)=>{
+            $('.tweet_input').val('')
+            $('.tweet_submit').removeClass('active')
+            if(res.text.text){
+                $('.wrapper-right-tweets').prepend(`
+                    <div class="wrapper-right-tweets-tweet">
+                        <div class="wrapper-right-tweets-tweet-left">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="wrapper-right-tweets-tweet-right">
+                            <div class="wrapper-right-tweets-tweet-right-top">
+                                <span class="wrapper-right-tweets-tweet-right-top-userName">添野文哉</span>
+                                <span class="wrapper-right-tweets-tweet-right-top-userId">@soeno_onseo</span>
+                                <span class="wrapper-right-tweets-tweet-right-top-time">・less than a minute</span>
+                            </div>
+                            <div class="wrapper-right-tweets-tweet-right-middle">
+                                ${res.text.text}
+                            </div>
+                            <div class="wrapper-right-tweets-tweet-right-bottom">
+                                <i class="far fa-comment"><span class="rep-num">0</span></i>
+                                <i class="fas fa-retweet"><span class="ret-num">0</span></i>
+                                <i class="far fa-heart"><span class="hea-num">0</span></i>
+                                <i class="far fa-share-square"></i>
+                            </div>
+                        </div>
+                    </div>
+                `)
+            }
         })
     })
     let textarea = $('.tweet_input')

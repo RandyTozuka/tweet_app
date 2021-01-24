@@ -1,0 +1,228 @@
+$left-width: 225px;
+$main-color: rgba(0,0,0,1.0);
+$sub-color : rgba(255,255,255,.2);
+$sub-dark-color : rgba(255,255,255,.05);
+$twitter-color: #00ACEE;
+$twitter-sub-color: #74D8FF;
+$twitter-dark-color: #0096d1;
+
+::-webkit-scrollbar{
+  display: none;
+}
+
+body{
+  margin: 0;
+  color: #E0E0E0;
+  background: $main-color;
+}
+
+.wrapper{
+  width: 800px;
+  display: flex;
+  margin: 0 auto;
+  &-left{
+    height: 100%;
+    position: fixed;
+    width: $left-width;
+    padding-right: 30px;
+    border-right: 1px solid $sub-color;
+    .active{
+      color: $twitter-sub-color;
+    }
+    &-content{
+      &:hover{
+        cursor: pointer;
+        color: $twitter-color;
+      }
+      display: block;
+      color: #E0E0E0;
+      text-decoration: none;
+      font-size: 24px;
+      padding: 12px 0;
+      &-icon{
+        width: 24px;
+        text-align: center;
+        display: inline-block;
+      }
+      &-text{
+        padding-left: 16px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+    }
+  }
+  &-right{
+    min-height: 100vh;
+    margin-left: 256px;
+    width: calc(100% - #{$left-width});
+    border-right: 1px solid $sub-color;
+    border-bottom: 1px solid $sub-color;
+    &-top{
+      font-weight: bold;
+      font-size: 20px;
+      height: 53px;
+      padding: 0 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid $sub-color;
+      &-icon{
+        color: $twitter-sub-color;
+        &:hover{
+          cursor: pointer;
+          color: $twitter-color;
+        }
+      }
+    }
+    &-create{
+      padding: 5px 15px;
+      border-bottom: 1px solid $sub-color;
+      display: flex;
+      &-left{
+        width: 50px;
+        padding-top: 5px;
+        margin-right: 10px;
+        .fa-user{
+          &:hover{
+            opacity: .7;
+            cursor: pointer;
+          }
+          font-size: 26px;
+          line-height: 50px;
+          text-align: center;
+          width: 50px;
+          height: 50px;
+          border-radius: 100%;
+          display: inline-block;
+          background-color: $sub-color;
+        }
+      }
+      &-right{
+        &-top{
+          .tweet_input{
+            margin: 0;
+            height: 29px;
+            resize: none;
+            width: 462px;
+            color: white;
+            padding: 10px 0;
+            font-size: 19px;
+            font-family: inherit;
+            border: 0px solid #000;
+            background-color: $main-color;
+            &:focus{
+              outline: 0px solid #000;
+            }
+          }
+        }
+        &-bottom{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding-bottom: 4px;
+          &-left{
+            cursor: default;
+            i{
+              &:hover{
+                color: $twitter-color;
+              }
+              cursor: pointer;
+              font-size: 20px;
+              margin: 10px 5px;
+              color: $twitter-sub-color;
+            }
+          }
+          &-right{
+            .tweet_submit{
+              opacity: .7;
+              font-size: 15px;
+              cursor: default;
+              font-weight: bold;
+              padding: 7px 14px;
+              border-radius: 44px;
+              background-color: $twitter-color;
+            }
+            .active{
+              opacity: 1;
+              cursor: pointer;
+              &:hover{
+                background-color: $twitter-dark-color;
+              }
+            }
+          }
+        }
+      }
+    }
+    &-tweets{
+      overflow: scroll;
+      &-tweet{
+        display: flex;
+        cursor: pointer;
+        padding: 5px 15px 10px;
+        border-bottom: 1px solid $sub-color;
+        &:hover{
+          background-color: $sub-dark-color;
+        }
+        &-left{
+          width: 50px;
+          padding-top: 5px;
+          margin-right: 10px;
+          .fa-user{
+            &:hover{
+              opacity: .7;
+              cursor: pointer;
+            }
+            font-size: 26px;
+            line-height: 50px;
+            text-align: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 100%;
+            display: inline-block;
+            background-color: $sub-color;
+          }
+        }
+        &-right{
+          font-size: 15px;
+          width: 100%;
+          &-top{
+            &-userName{
+              color: white;
+              font-weight: bold;
+              text-decoration: none;
+              &:hover{
+                text-decoration: underline;
+              }
+            }
+            &-userId, &-time{
+              color: gray;
+              font-size: 14px;
+            }
+          }
+          &-bottom{
+            color: gray;
+            display: flex;
+            padding-top: 6px;
+            padding-right: 50px;
+            align-items: center;
+            justify-content: space-between;
+            i{
+              display: flex;
+              font-size: 18px;
+              align-items: center;
+              &:hover{
+                color: white;
+              }
+              .rep-num, .ret-num, .hea-num{
+                font-size: 12px;
+                padding-top: 3px;
+                padding-left: 8px;
+                font-weight: normal;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

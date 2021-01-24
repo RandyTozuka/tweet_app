@@ -1,0 +1,12 @@
+<div class="wrapper-left">
+  <% @icons.each do |icon| %>
+  <a data-turbolinks="false" href="<%= icon[:link] %>" class="wrapper-left-content <% if icon[:link] == "/tweets/#{action_name}" || action_name == "index" && icon[:text] == "ホーム"%>active<%end%>">
+        <span class="wrapper-left-content-icon" >
+        <i class= "<%= icon[:class] %>" ></i>
+      </span>
+      <span class="wrapper-left-content-text" >
+        <%= icon[:text] %>
+      </span>
+  </a>
+  <% end %>
+</div>

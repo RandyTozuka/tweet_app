@@ -1,0 +1,27 @@
+<div class="wrapper">
+    <%= render '/layouts/sidebar', {icons: @icons}%>
+    <div class="wrapper-right">
+      <div class="wrapper-right-top">
+        <span class="wrapper-right-top-text"><%= @user.name %></span>
+        <i class="wrapper-right-top-icon fas fa-lightbulb"></i>
+      </div>
+      <div class="wrapper-right-profile">
+        <i class="fas fa-user"></i>
+        <div class="wrapper-right-profile-userName"><%= @user.name %></div>
+         <div class="wrapper-right-profile-accountId">@<%= @user.account %></div>
+         <div class="wrapper-right-profile-text"><%= @user.text %></div>
+         <div class="wrapper-right-profile-calendar"><i class="far fa-calendar-alt"></i><%= @user.created_at.strftime("%Y年%m月") %>からTwitterを利用しています</div>
+         <div class="wrapper-right-profile-follows">
+           <span class="follow">113</span>
+           <span class="wrapper-right-profile-follows-ftext">フォロー</span>
+           <span class="follower">1,004</span>
+           <span class="wrapper-right-profile-follows-ftext">フォロワー</span>
+         </div>
+      </div>
+      <div class="wrapper-right-tweets">
+          <% Tweet.where(user_id: @user.id).order(created_at: :desc).each do |t| %>
+              <%= render '/layouts/tweet', {t: t} %>
+          <% end %>
+      </div>
+    </div>
+</div>

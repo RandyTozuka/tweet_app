@@ -21,13 +21,13 @@ class TweetsController < ApplicationController
               {link:"/tweets/message", text: "メッセージ", class: "far fa-envelope"},
               {link:"/tweets/bookmark", text: "ブックマーク", class: "far fa-bookmark"},
               {link:"/tweets/list", text: "リスト", class: "far fa-list-alt"},
-              {link:"/tweets/profile", text: "プロフィール", class: "far fa-user"},
+              {link:"/users/#{current_user.id}", text: "プロフィール", class: "far fa-user"},
               {link:"/tweets/info", text: "もっと見る", class: "fas fa-info-circle"}]
   end
 
   private
   def tweet_params
-    params[:tweet].permit(:text)
+    params[:tweet].permit(:text).merge(user_id: current_user.id)
   end
 
 end#ofclass

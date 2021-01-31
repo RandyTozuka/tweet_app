@@ -1,3 +1,4 @@
+
 <div class="wrapper">
     <%= render '/layouts/sidebar', {icons: @icons}%>
     <div class="wrapper-right">
@@ -27,27 +28,7 @@
         </div>
         <div class="wrapper-right-tweets">
             <% Tweet.all.order(created_at: :desc).each do |t| %>
-                <div class="wrapper-right-tweets-tweet">
-                    <div class="wrapper-right-tweets-tweet-left">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="wrapper-right-tweets-tweet-right">
-                        <div class="wrapper-right-tweets-tweet-right-top">
-                            <span class="wrapper-right-tweets-tweet-right-top-userName">添野文哉</span>
-                            <span class="wrapper-right-tweets-tweet-right-top-userId">@soeno_onseo</span>
-                            <span class="wrapper-right-tweets-tweet-right-top-time">・<%=time_ago_in_words(t.created_at)%></span>
-                        </div>
-                        <div class="wrapper-right-tweets-tweet-right-middle">
-                            <%=t[:text]%>
-                        </div>
-                        <div class="wrapper-right-tweets-tweet-right-bottom">
-                            <i class="far fa-comment"><span class="rep-num">0</span></i>
-                            <i class="fas fa-retweet"><span class="ret-num">0</span></i>
-                            <i class="far fa-heart"><span class="hea-num">0</span></i>
-                            <i class="far fa-share-square"></i>
-                        </div>
-                    </div>
-                </div>
+                <%= render '/layouts/tweet',{t: t}  %>
             <% end %>
         </div>
     </div>
@@ -56,12 +37,6 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script>
     $(document).on('click', '.tweet_submit', ()=>{
-        // $.get({
-        //     url: '/tweets/create',
-        //     data: {tweet: {text: $('.tweet_input').val()}}
-        // }).done(()=>{
-        //     $('.tweet_input').val("")
-        // })
         $.get({
             url: '/tweets/create',
             data: {tweet: {text: $('.tweet_input').val()}}
@@ -76,9 +51,9 @@
                         </div>
                         <div class="wrapper-right-tweets-tweet-right">
                             <div class="wrapper-right-tweets-tweet-right-top">
-                                <span class="wrapper-right-tweets-tweet-right-top-userName">添野文哉</span>
-                                <span class="wrapper-right-tweets-tweet-right-top-userId">@soeno_onseo</span>
-                                <span class="wrapper-right-tweets-tweet-right-top-time">・less than a minute</span>
+                              <a class="wrapper-right-tweets-tweet-right-top-userName" href="/users/${res.user.id}">${res.user.name}</a>
+                              <span class="wrapper-right-tweets-tweet-right-top-userId">${res.user.account}</span>
+                              <span class="wrapper-right-tweets-tweet-right-top-time">・less than a minute</span>
                             </div>
                             <div class="wrapper-right-tweets-tweet-right-middle">
                                 ${res.text.text}

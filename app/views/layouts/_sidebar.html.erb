@@ -9,4 +9,9 @@
       </span>
   </a>
   <% end %>
+  <% if user_signed_in? %>
+     <%= link_to "ログアウト", "/users/sign_out", class: "sign-button", method: "delete" %>
+  <% else %>
+     <%= link_to "ログイン", "/users/sign_in", class: "sign-button" %>
+  <% end %>
 </div>

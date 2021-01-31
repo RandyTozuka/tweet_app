@@ -224,5 +224,67 @@ body{
         }
       }
     }
+    &-profile{
+      padding: 15px;
+      font-size: 15px;
+      border-bottom: 1px solid $sub-color;
+      .fa-user{
+        width: 142px;
+        height: 142px;
+        font-size: 82px;
+        line-height: 142px;
+        text-align: center;
+        border-radius: 142px;
+        background-color: $sub-color;
+      }
+      &-userName{
+        font-size: 18px;
+        padding-top: 10px;
+        font-weight: bold;
+      }
+      &-accountId{
+        color: gray;
+      }
+      &-text{
+        padding-top: 10px;
+      }
+      .fa-calendar-alt{
+        padding-right: 8px;
+      }
+      &-calendar{
+        color: grey;
+        font-size: 14px;
+        padding-top: 8px;
+      }
+      &-follows{
+        font-size: 14px;
+        padding-top: 10px;
+        .follow, .follower{
+          font-weight: bold;
+        }
+        &-ftext{
+          color: grey;
+          font-size: 14px;
+        }
+      }
+    }
+  }
+  // ↑ end of &-right
+}
+.sign-button{
+  width: 200px;
+  color: white;
+  padding: 9px 0;
+  font-size: 15px;
+  cursor: pointer;
+  margin-top: 20px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 44px;
+  text-decoration: none;
+  display: inline-block;
+  background-color: $twitter-color;
+  &:hover{
+    background-color: $twitter-dark-color;
   }
 }

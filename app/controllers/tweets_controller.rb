@@ -12,7 +12,6 @@ class TweetsController < ApplicationController
     @tweet.save unless params[:tweet][:text].blank?
   end
 
-
   def set_icons
     @icons = [{link:"/", text:"", class: "fab fa-twitter"},
               {link:"/", text:"ホーム", class: "fas fa-home"},
@@ -25,9 +24,18 @@ class TweetsController < ApplicationController
               {link:"/tweets/info", text: "もっと見る", class: "fas fa-info-circle"}]
   end
 
+  def like
+    @like = Like.find_by(like_params)
+    @like.blank? ? Like.new(like_params).save : @like.delete
+  end
+
   private
   def tweet_params
     params[:tweet].permit(:text).merge(user_id: current_user.id)
+  end
+
+  def like_params
+    {user_id: current_user.id, tweet_id: params[:id]}
   end
 
 end#ofclass

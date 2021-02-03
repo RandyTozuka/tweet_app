@@ -4,7 +4,9 @@
     </div>
     <div class="wrapper-right-tweets-tweet-right">
         <div class="wrapper-right-tweets-tweet-right-top">
-            <%= link_to User.find(t.user_id).name, user_path(User.find(t.user_id).id), class: "wrapper-right-tweets-tweet-right-top-userName" %>
+            <%= link_to User.find(t.user_id).name,
+                                            user_path(User.find(t.user_id).id),
+                                            class: "wrapper-right-tweets-tweet-right-top-userName" %>
             <span class="wrapper-right-tweets-tweet-right-top-userId">@<%= User.find(t.user_id).account %></span>
             <span class="wrapper-right-tweets-tweet-right-top-time">・<%=time_ago_in_words(t.created_at)%></span>
         </div>
@@ -14,7 +16,11 @@
         <div class="wrapper-right-tweets-tweet-right-bottom">
             <i class="far fa-comment"><span class="rep-num">0</span></i>
             <i class="fas fa-retweet"><span class="ret-num">0</span></i>
-            <i class="far fa-heart"><span class="hea-num">0</span></i>
+            <% if Like.find_by(user_id: current_user.id, tweet_id: t.id) %>
+                <i class="fas fa-heart" action="<%= like_tweet_path(t.id) %>" style="color: red;"><span class="hea-num"><%= Like.where(tweet_id: t.id).count %></span></i>
+            <% else %>
+                <i class="far fa-heart" action="<%= like_tweet_path(t.id) %>"><span class="hea-num"><%= Like.where(tweet_id: t.id).count %></span></i>
+            <% end %>
             <i class="far fa-share-square"></i>
         </div>
     </div>

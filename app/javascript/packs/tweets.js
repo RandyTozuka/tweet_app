@@ -44,7 +44,7 @@ $(()=>{
         let lines = (textarea.val() + '\n').match(/\n/g).length
         textarea.height(lineHeight * lines)
     })
-    // 以下の処理を追記
+    // 以下の処理を追記。.fa-heart要素がクリックされた場合のイベントとして、likeアクションを動作させるための記述
     $(document).on('click', '.fa-heart', function(){
         let self = $(this)
         $.get({

@@ -32,6 +32,9 @@ class TweetsController < ApplicationController
   private
   def tweet_params
     params[:tweet].permit(:text).merge(user_id: current_user.id)
+    #mergeというのはRubyの関数のひとつで、ハッシュに要素を追加できる。
+    #user_idという名前でcurrent_user.idという値を代入することで、
+    #ツイートにユーザーのIDを与えることができます
   end
 
   def like_params

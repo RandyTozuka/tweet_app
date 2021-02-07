@@ -1,27 +1,91 @@
 <div class="wrapper">
     <%= render '/layouts/sidebar', {icons: @icons}%>
     <div class="wrapper-right">
-      <div class="wrapper-right-top">
-        <span class="wrapper-right-top-text"><%= @user.name %></span>
-        <i class="wrapper-right-top-icon fas fa-lightbulb"></i>
-      </div>
-      <div class="wrapper-right-profile">
-        <i class="fas fa-user"></i>
-        <div class="wrapper-right-profile-userName"><%= @user.name %></div>
-         <div class="wrapper-right-profile-accountId">@<%= @user.account %></div>
-         <div class="wrapper-right-profile-text"><%= @user.text %></div>
-         <div class="wrapper-right-profile-calendar"><i class="far fa-calendar-alt"></i><%= @user.created_at.strftime("%Y年%m月") %>からTwitterを利用しています</div>
-         <div class="wrapper-right-profile-follows">
-           <span class="follow">113</span>
-           <span class="wrapper-right-profile-follows-ftext">フォロー</span>
-           <span class="follower">1,004</span>
-           <span class="wrapper-right-profile-follows-ftext">フォロワー</span>
-         </div>
-      </div>
-      <div class="wrapper-right-tweets">
-          <% Tweet.where(user_id: @user.id).order(created_at: :desc).each do |t| %>
-              <%= render '/layouts/tweet', {t: t} %>
-          <% end %>
-      </div>
+        <div class="wrapper-right-top">
+            <span class="wrapper-right-top-text"><%= @user.name %></span>
+            <i class="wrapper-right-top-icon fas fa-lightbulb"></i>
+        </div>
+        <div class="wrapper-right-profile">
+            <div class="wrapper-right-profile-top">
+                <i class="fas fa-user"></i>
+                <% if @user.id != current_user.id %>
+                    <span class="follow-button" action="<%= follow_user_path(@user) %>">
+                        <% if Follow.find_by(following_id: current_user.id, followed_by_id: @user.id) %>
+                            フォロー中
+                        <% else %>
+                            フォロー
+                        <% end %>
+                    </span>
+                <% end %>
+            </div>
+            <div class="wrapper-right-profile-userName"><%= @user.name %></div>
+            <div class="wrapper-right-profile-accountId">@<%= @user.account %></div>
+            <div class="wrapper-right-profile-text">哲学とプログラミングを愛する26歳現役エンジニア。初心者向けWEBプログラミング情報サイト『ONSEO』運営。本業副業共にプログラミング一筋。海外向けエンジニア教育ビジネスの構想中。1日22時間作業のショートスリーパー。毎日こつこつビジネスとコンテンツを量産中です</div>
+            <div class="wrapper-right-profile-calendar"><i class="far fa-calendar-alt"></i><%= @user.created_at.strftime("%Y年%m月") %>からTwitterを利用しています</div>
+            <div class="wrapper-right-profile-follows">
+                <span class="follow"><%= Follow.where(following_id: @user.id).count %></span>
+                <span class="wrapper-right-profile-follows-ftext">フォロー</span>
+                <span class="follower"><%= Follow.where(followed_by_id: @user.id).count %></span>
+                <span class="wrapper-right-profile-follows-ftext">フォロワー</span>
+            </div>
+        </div>
+        <div class="wrapper-right-tweets">
+            <% Tweet.where(user_id: @user.id).order(created_at: :desc).each do |t| %>
+                <%= render '/layouts/tweet', {t: t} %>
+            <% end %>
+        </div>
     </div>
 </div>
+
+<style>
+    .wrapper-right-profile-top{
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+    }
+    .follow-button{
+        width: 120px;
+        padding: 7px 0;
+        font-size: 15px;
+        cursor: pointer;
+        font-weight: bold;
+        text-align: center;
+        border-radius: 39px;
+        background-color: #00ACEE;
+    }
+    .follow-button:hover{
+        background-color: #0096D1;
+    }
+</style>
+
+<script>
+    $(()=>{
+        let setFollowButton = (s)=>{
+            s.text('フォロー中')
+            .hover(()=>{
+                s.text('フォロー解除').css('background-color', '#CA2154')
+            }, ()=>{
+                s.text('フォロー中').css('background-color', '')
+            })
+        }
+        let setRemoveButton = (s)=>{
+            s.text('フォロー')
+            .hover(()=>{
+                s.text('フォローする').css('background-color', '#0096D1')
+            }, ()=>{
+                s.text('フォロー')
+            })
+        }
+        let self = $('.follow-button')
+        self.text().indexOf('フォロー中') == -1 ? setRemoveButton(self) : setFollowButton(self)
+        $(document).on('click', '.follow-button', function(){
+            self = $(this)
+            $.get({
+                url: self.attr('action')
+            }).done((res)=>{
+                res.flag ? setFollowButton(self) : setRemoveButton(self)
+                $('.follower').text(res.count)
+            })
+        })
+    })
+</script>

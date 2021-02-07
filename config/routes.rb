@@ -17,5 +17,9 @@ Rails.application.routes.draw do
       get "like"          # "http://localhost:3000/tweets/:id/like" のように
     end#of_member         # params[:id]を受け取ることができる
   end#of_resources_tweets
-  resources :users, only: [:show]
+  resources :users, only: [:show]do
+      member do
+        get "follow"
+      end#of_member
+  end#of_resources_users
 end

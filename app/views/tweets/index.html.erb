@@ -27,7 +27,7 @@
             </div>
         </div>
         <div class="wrapper-right-tweets">
-            <% Tweet.unscoped.all.order(created_at: :desc).each do |t| %>
+            <% Tweet.all.order(created_at: :desc).each do |t| %>
                 <%= render '/layouts/tweet',{t: t}  %>
             <% end %>
         </div>

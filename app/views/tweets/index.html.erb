@@ -1,4 +1,4 @@
-
+<%= javascript_pack_tag 'tweets' %>
 <div class="wrapper">
     <%= render '/layouts/sidebar', {icons: @icons}%>
     <div class="wrapper-right">
@@ -27,7 +27,7 @@
             </div>
         </div>
         <div class="wrapper-right-tweets">
-            <% Tweet.all.order(created_at: :desc).each do |t| %>
+            <% Tweet.unscoped.all.order(created_at: :desc).each do |t| %>
                 <%= render '/layouts/tweet',{t: t}  %>
             <% end %>
         </div>

@@ -25,8 +25,11 @@ class TweetsController < ApplicationController
   end
 
   def like
+    @tweet = Tweet.find(params[:id])
     @like = Like.find_by(like_params)
+    @notification = Notification.find_by(notification_params)
     @like.blank? ? Like.new(like_params).save : @like.delete
+    @like.blank? ? Notification.new(notification_params).save : @notification.delete unless @tweet.user_id == current_user.id
   end
 
   private
@@ -39,6 +42,10 @@ class TweetsController < ApplicationController
 
   def like_params
     {user_id: current_user.id, tweet_id: params[:id]}
+  end
+
+  def notification_params
+    {notifying_id: @tweet.user_id, notified_by_id: current_user.id, tweet_id: @tweet.id}
   end
 
 end#ofclass

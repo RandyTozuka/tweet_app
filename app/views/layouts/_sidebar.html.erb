@@ -1,17 +1,36 @@
 <div class="wrapper-left">
-  <% @icons.each do |icon| %>
-  <a data-turbolinks="false" href="<%= icon[:link] %>" class="wrapper-left-content <% if icon[:link] == "/tweets/#{action_name}" || action_name == "index" && icon[:text] == "ホーム"%>active<%end%>">
-        <span class="wrapper-left-content-icon" >
-        <i class= "<%= icon[:class] %>" ></i>
-      </span>
-      <span class="wrapper-left-content-text" >
-        <%= icon[:text] %>
-      </span>
-  </a>
-  <% end %>
-  <% if user_signed_in? %>
-     <%= link_to "ログアウト", "/users/sign_out", class: "sign-button", method: "delete" %>
-  <% else %>
-     <%= link_to "ログイン", "/users/sign_in", class: "sign-button" %>
-  <% end %>
+    <% @icons.each do |icon|%>
+        <% if icon[:text] == "通知" %>
+            <span class="notification"><%= Notification.where(notified_by_id: current_user.id, read: false).count %></span>
+        <% end %>
+        <a data-turbolinks="false" href="<%= icon[:link] %>" class="wrapper-left-content <%if icon[:link] == "/tweets/#{action_name}" || action_name == "index" && icon[:text] == "ホーム"%>active<%end%>">
+            <span class="wrapper-left-content-icon">
+                <i class="<%= icon[:class] %>"></i>
+            </span>
+            <span class="wrapper-left-content-text">
+                <%= icon[:text] %>
+            </span>
+        </a>
+    <% end %>
+    <% if user_signed_in? %>
+        <%= link_to "ログアウト", "/users/sign_out", class: "sign-button", method: "delete" %>
+    <% else %>
+        <%= link_to "ログイン", "/users/sign_in", class: "sign-button" %>
+    <% end %>
 </div>
+
+<style>
+    .notification{
+        left: 10px;
+        width: 15px;
+        padding: .5px;
+        font-size: 10px;
+        margin-top: 13px;
+        font-weight: bold;
+        text-align: center;
+        position: absolute;
+        border-radius: 100%;
+        border: 1px solid black;
+        background-color: #00ACEE;
+    }
+</style>

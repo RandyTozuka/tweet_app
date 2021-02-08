@@ -1,4 +1,87 @@
 <div class="wrapper">
     <%= render '/layouts/sidebar', {icons: @icons}%>
-    <div class="wrapper-right"></div>
+    <div class="wrapper-right">
+        <div class="wrapper-right-top">
+            <span class="wrapper-right-top-text">通知</span>
+            <i class="wrapper-right-top-icon fas fa-cog"></i>
+        </div>
+        <div class="wrapper-right-tweets">
+            <% Notification.all.order(created_at: :desc).each do |n| %>
+                <% n.update(read: true) %>
+                <div class="wrapper-right-tweets-notification">
+                    <div class="wrapper-right-tweets-notification-left">
+                        <% if n.tweet_id %>
+                            <i class="fas fa-heart"></i>
+                        <% else %>
+                            <i class="fas fa-user"></i>
+                        <% end %>
+                    </div>
+                    <div class="wrapper-right-tweets-notification-right">
+                        <div class="wrapper-right-tweets-notification-right-top">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="wrapper-right-tweets-notification-right-body">
+                            <% if n.tweet_id %>
+                                <%= link_to User.find(n.notifying_id).name, user_path(n.notifying_id) %>さんがあなたのツイートをいいねしました<br />
+                                <span class="likedTweet"><%= Tweet.find(n.tweet_id).text %></span>
+                            <% else %>
+                                <%= link_to User.find(n.notifying_id).name, user_path(n.notifying_id) %>さんにフォローされました
+                            <% end %>
+                        </div>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+    </div>
 </div>
+
+<style>
+    .wrapper-right-tweets-notification:hover{
+        cursor: pointer;
+        background-color: #111;
+    }
+    .wrapper-right-tweets-notification{
+        display: flex;
+        padding: 10px 15px;
+        border-bottom: 1px solid rgba(255,255,255,.2);
+    }
+    .wrapper-right-tweets-notification-left{
+        width: 50px;
+        display: flex;
+        margin-right: 10px;
+        justify-content: flex-end;
+    }
+    .wrapper-right-tweets-notification-left i{
+        font-size: 25px;
+    }
+    .wrapper-right-tweets-notification-left .fa-heart{
+        color: #DD1C52;
+    }
+    .wrapper-right-tweets-notification-left .fa-user{
+        color: #00ACEE;
+    }
+    .wrapper-right-tweets-notification-right-top .fa-user{
+        padding-left: 1px;
+        width: 27px;
+        height: 28px;
+        line-height: 28px;
+        text-align: center;
+        border-radius: 25px;
+        background-color: rgba(255,255,255,.3);
+    }
+    .wrapper-right-tweets-notification-right-body{
+        font-size: 15px;
+        padding-top: 6px;
+    }
+    .wrapper-right-tweets-notification-right-body a{
+        color: #E0E0E0;
+        font-weight: bold;
+        text-decoration: none;
+    }
+    .wrapper-right-tweets-notification-right-body a:hover{
+        text-decoration: underline;
+    }
+    .likedTweet{
+        color: rgba(255,255,255,.4);
+    }
+</style>

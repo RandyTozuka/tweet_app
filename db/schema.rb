@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_07_212805) do
+ActiveRecord::Schema.define(version: 2021_02_08_203700) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,18 @@ ActiveRecord::Schema.define(version: 2021_02_07_212805) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["tweet_id"], name: "index_likes_on_tweet_id"
     t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "notifying_id"
+    t.bigint "notified_by_id"
+    t.bigint "tweet_id"
+    t.boolean "read", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["notified_by_id"], name: "index_notifications_on_notified_by_id"
+    t.index ["notifying_id"], name: "index_notifications_on_notifying_id"
+    t.index ["tweet_id"], name: "index_notifications_on_tweet_id"
   end
 
   create_table "tweets", force: :cascade do |t|
@@ -60,5 +72,8 @@ ActiveRecord::Schema.define(version: 2021_02_07_212805) do
   add_foreign_key "follows", "users", column: "following_id"
   add_foreign_key "likes", "tweets"
   add_foreign_key "likes", "users"
+  add_foreign_key "notifications", "tweets"
+  add_foreign_key "notifications", "users", column: "notified_by_id"
+  add_foreign_key "notifications", "users", column: "notifying_id"
   add_foreign_key "tweets", "users"
 end
